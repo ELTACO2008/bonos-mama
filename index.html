@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bonos para Mamá</title>
+  <style>
+    :root {
+      --bg1: #fff7fb;
+      --bg2: #fff0f6;
+      --card: rgba(255, 255, 255, 0.85);
+      --text: #4a2c3a;
+      --muted: #7a5a67;
+      --active1: #34c759;
+      --active2: #22a745;
+      --used1: #ff5c5c;
+      --used2: #d93636;
+      --accent: #ff7eb6;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+      --radius: 24px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, #ffd6e7 0%, transparent 35%),
+        radial-gradient(circle at top right, #ffe6f0 0%, transparent 30%),
+        linear-gradient(135deg, var(--bg1), var(--bg2));
+      min-height: 100vh;
+    }
+
+    .wrapper {
+      width: min(1100px, 92%);
+      margin: 0 auto;
+      padding: 32px 0 48px;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 24px 20px 8px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.75);
+      color: #c94f8a;
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-weight: 700;
+      box-shadow: var(--shadow);
+      margin-bottom: 18px;
+      backdrop-filter: blur(6px);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 3.3rem);
+      line-height: 1.1;
+    }
+
+    .subtitle {
+      max-width: 700px;
+      margin: 14px auto 0;
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
+
+    .stats {
+      margin: 28px auto 0;
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .stat {
+      background: rgba(255, 255, 255, 0.82);
+      border-radius: 18px;
+      padding: 14px 18px;
+      min-width: 150px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(6px);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.3rem;
+      margin-bottom: 4px;
+    }
+
+    .grid {
+      margin-top: 34px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 22px;
+    }
+
+    .coupon {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius);
+      padding: 22px;
+      color: white;
+      box-shadow: var(--shadow);
+      min-height: 240px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      isolation: isolate;
+    }
+
+    .coupon::before,
+    .coupon::after {
+      content: "";
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.14);
+      z-index: -1;
+    }
+
+    .coupon::before {
+      top: -35px;
+      right: -35px;
+    }
+
+    .coupon::after {
+      bottom: -45px;
+      left: -35px;
+    }
+
+    .coupon.active {
+      background: linear-gradient(135deg, var(--active1), var(--active2));
+    }
+
+    .coupon.used {
+      background: linear-gradient(135deg, var(--used1), var(--used2));
+    }
+
+    .top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .icon {
+      font-size: 1.8rem;
+      line-height: 1;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.15));
+    }
+
+    .state-pill {
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.22);
+      backdrop-filter: blur(4px);
+      white-space: nowrap;
+    }
+
+    .title {
+      margin: 18px 0 10px;
+      font-size: 1.35rem;
+      font-weight: 800;
+      line-height: 1.3;
+    }
+
+    .desc {
+      margin: 0;
+      line-height: 1.6;
+      font-size: 0.98rem;
+      color: rgba(255,255,255,0.95);
+    }
+
+    .bottom {
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px dashed rgba(255,255,255,0.4);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .code {
+      font-size: 0.86rem;
+      font-weight: 700;
+      opacity: 0.95;
+      background: rgba(255,255,255,0.14);
+      padding: 8px 10px;
+      border-radius: 10px;
+    }
+
+    .foot {
+      margin-top: 40px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .heart {
+      color: var(--accent);
+      font-weight: bold;
+    }
+
+    @media (max-width: 640px) {
+      .coupon {
+        min-height: 220px;
+      }
+
+      .title {
+        font-size: 1.2rem;
+      }
+
+      .subtitle {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <section class="hero">
+      <div class="badge">🎁 Bonos especiales de cumpleaños 🎁</div>
+      <h1>Para la mejor mamá del mundo</h1>
+      <p class="subtitle">
+        Estos bonos fueron hechos con mucho cariño. Cada uno puede ser usado para un momento especial, un detalle bonito o un rato juntos.
+      </p>
+
+      <div class="stats">
+        <div class="stat">
+          <strong id="totalActivos">0</strong>
+          Activos
+        </div>
+        <div class="stat">
+          <strong id="totalUsados">0</strong>
+          Reclamados
+        </div>
+      </div>
+    </section>
+
+    <main class="grid" id="bonosGrid"></main>
+
+    <footer class="foot">
+      Hecho con <span class="heart">❤</span> para mamá
+    </footer>
+  </div>
+
+  <script>
+    /*
+      SOLO CAMBIA true o false
+      true  = activo (verde)
+      false = reclamado (rojo)
+    */
+    const bonos = [
+      {
+        titulo: "Válido para un masaje relajante",
+        descripcion: "Un masaje especial para ayudarte a descansar y sentirte mucho mejor.",
+        activo: true,
+        icono: "💆‍♀️",
+        codigo: "MAMA-001"
+      },
+      {
+        titulo: "Válido para desayuno sorpresa",
+        descripcion: "Un desayuno preparado con cariño para empezar el día con una sonrisa.",
+        activo: true,
+        icono: "🥐",
+        codigo: "MAMA-002"
+      },
+      {
+        titulo: "Válido para tarde de películas",
+        descripcion: "Escogemos una película, algo rico para comer y pasamos un rato juntos.",
+        activo: false,
+        icono: "🎬",
+        codigo: "MAMA-003"
+      },
+      {
+        titulo: "Válido para cena hecha por mí",
+        descripcion: "Una cena especial preparada con dedicación para consentirte.",
+        activo: true,
+        icono: "🍽️",
+        codigo: "MAMA-004"
+      },
+      {
+        titulo: "Válido para ayuda en casa",
+        descripcion: "Yo me encargo de una tarea del hogar para que descanses un poco más.",
+        activo: false,
+        icono: "🧹",
+        codigo: "MAMA-005"
+      },
+      {
+        titulo: "Válido para una salida especial",
+        descripcion: "Un plan bonito para compartir tiempo juntos y crear un recuerdo feliz.",
+        activo: true,
+        icono: "🌷",
+        codigo: "MAMA-006"
+      }
+    ];
+
+    const bonosGrid = document.getElementById("bonosGrid");
+    const totalActivos = document.getElementById("totalActivos");
+    const totalUsados = document.getElementById("totalUsados");
+
+    function renderBonos() {
+      bonosGrid.innerHTML = "";
+
+      let activos = 0;
+      let usados = 0;
+
+      bonos.forEach((bono) => {
+        const estadoClase = bono.activo ? "active" : "used";
+        const estadoTexto = bono.activo ? "Activo" : "Reclamado";
+
+        if (bono.activo) {
+          activos++;
+        } else {
+          usados++;
+        }
+
+        const card = document.createElement("article");
+        card.className = `coupon ${estadoClase}`;
+
+        card.innerHTML = `
+          <div>
+            <div class="top">
+              <div class="icon">${bono.icono}</div>
+              <div class="state-pill">${estadoTexto}</div>
+            </div>
+
+            <h2 class="title">${bono.titulo}</h2>
+            <p class="desc">${bono.descripcion}</p>
+          </div>
+
+          <div class="bottom">
+            <div class="code">${bono.codigo}</div>
+            <div>✨ Con amor ✨</div>
+          </div>
+        `;
+
+        bonosGrid.appendChild(card);
+      });
+
+      totalActivos.textContent = activos;
+      totalUsados.textContent = usados;
+    }
+
+    renderBonos();
+  </script>
+</body>
+</html>
