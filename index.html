@@ -72,6 +72,25 @@
       line-height: 1.6;
     }
 
+    .terms-btn {
+      margin-top: 18px;
+      padding: 12px 18px;
+      border: none;
+      border-radius: 14px;
+      background: #ffffff;
+      color: #c94f8a;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .terms-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.14);
+    }
+
     .stats {
       margin: 28px auto 0;
       display: flex;
@@ -194,6 +213,7 @@
       justify-content: space-between;
       gap: 12px;
       flex-wrap: wrap;
+      font-size: 0.92rem;
     }
 
     .code {
@@ -217,6 +237,57 @@
       font-weight: bold;
     }
 
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      z-index: 999;
+      padding: 20px;
+    }
+
+    .modal-content {
+      max-width: 650px;
+      margin: 60px auto;
+      background: white;
+      border-radius: 22px;
+      padding: 24px;
+      color: #4a2c3a;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      position: relative;
+    }
+
+    .modal-content h2 {
+      margin-top: 0;
+      margin-bottom: 14px;
+    }
+
+    .modal-content p {
+      color: #7a5a67;
+      line-height: 1.6;
+      margin-bottom: 14px;
+    }
+
+    .modal-content ul {
+      line-height: 1.8;
+      padding-left: 20px;
+      margin: 0;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      font-size: 1.8rem;
+      cursor: pointer;
+      font-weight: bold;
+      color: #c94f8a;
+    }
+
+    .close-btn:hover {
+      opacity: 0.8;
+    }
+
     @media (max-width: 640px) {
       .coupon {
         min-height: 220px;
@@ -229,17 +300,24 @@
       .subtitle {
         font-size: 1rem;
       }
+
+      .modal-content {
+        margin: 20px auto;
+        padding: 20px;
+      }
     }
   </style>
 </head>
 <body>
   <div class="wrapper">
     <section class="hero">
-      <div class="badge"></div>
-      <h1>Para la ño mas ño</h1>
+      <div class="badge">🎁 Bonos especiales para mami 🎁</div>
+      <h1>Para la ño más ño</h1>
       <p class="subtitle">
-        Estos bonos fueron hechos por jose para mi madre especial, te amo mucho mami.
+        Estos bonos fueron hechos por Jose para mi madre especial, te amo mucho mami.
       </p>
+
+      <button class="terms-btn" onclick="abrirTerminos()">Ver términos y condiciones</button>
 
       <div class="stats">
         <div class="stat">
@@ -258,6 +336,25 @@
     <footer class="foot">
       Hecho con <span class="heart">mucho amor</span> para mami
     </footer>
+  </div>
+
+  <div class="modal" id="modalTerminos">
+    <div class="modal-content">
+      <span class="close-btn" onclick="cerrarTerminos()">&times;</span>
+      <h2>Términos y condiciones</h2>
+      <p>
+        Estos bonos fueron creados con mucho cariño y aplican bajo las siguientes condiciones:
+      </p>
+      <ul>
+        <li>Los bonos son personales e intransferibles.</li>
+        <li>Cada bono puede ser usado una sola vez.</li>
+        <li>Los bonos no son canjeables por dinero.</li>
+        <li>Los bonos deben reclamarse antes de su fecha de vencimiento.</li>
+        <li>Una vez reclamado un bono, pasará a estado rojo.</li>
+        <li>El uso del bono está sujeto a disponibilidad de tiempo.</li>
+        <li>Los bonos fueron hechos con amor y pueden incluir mimos extra.</li>
+      </ul>
+    </div>
   </div>
 
   <script>
@@ -321,6 +418,21 @@
     const totalActivos = document.getElementById("totalActivos");
     const totalUsados = document.getElementById("totalUsados");
 
+    function abrirTerminos() {
+      document.getElementById("modalTerminos").style.display = "block";
+    }
+
+    function cerrarTerminos() {
+      document.getElementById("modalTerminos").style.display = "none";
+    }
+
+    window.onclick = function(event) {
+      const modal = document.getElementById("modalTerminos");
+      if (event.target === modal) {
+        modal.style.display = "none";
+      }
+    };
+
     function renderBonos() {
       bonosGrid.innerHTML = "";
 
@@ -353,7 +465,7 @@
 
           <div class="bottom">
             <div class="code">${bono.codigo}</div>
-              <div>Vence: ${bono.vencimiento}</div>
+            <div>⏳ Vence: ${bono.vencimiento}</div>
             <div>✨ Con amor ✨</div>
           </div>
         `;
